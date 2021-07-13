@@ -73,6 +73,9 @@ document.getElementById('category').onchange = (e) => {
 }
 
 const upload = async () => {
+    if (!document.getElementById('photo').src) {
+        return document.getElementById('message').innerText = 'No image provided';
+    }
     document.getElementById('message').innerText = '';
 
     // these 2 if statements are for seeing if the user used the new options
@@ -86,14 +89,25 @@ const upload = async () => {
         category = document.getElementById('newcategory').value;
     }
 
+    const location = document.getElementById('location').value;
+
+    if (category === '' || photographer === '' || location === '') {
+        return document.getElementById('message').innerText = 'All fields must be provided, if you don\'t know the exact location just put the country.';
+    }
+
+    document.getElementById('upload').disabled = true;
+
     ipcRenderer.send('upload', {
         photographer: photographer,
         category: category,
-        location: document.getElementById('location').value,
+        location: location,
         camera_model: document.getElementById('model').value
     });
 }
 
 ipcRenderer.on('message', (_event, arg) => {
+    if (message === 'Success') {
+        document.getElementById('upload').disabled = false;
+    }
     document.getElementById('message').innerText = arg;
 });

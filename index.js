@@ -37,7 +37,12 @@ app.whenReady().then(() => {
 let file;
 ipcMain.on('addFile', async (event) => { 
     const filePath = dialog.showOpenDialogSync({ properties: ['openFile'] });
-    const metadata = await exif.parse(filePath[0]);
+    let metadata;
+    try {
+        metadata = await exif.parse(filePath[0]);
+    } catch (e) {
+        return event.sender.send('message', 'Failed to get image data');
+    }
     file = filePath[0];
     event.sender.send('addedFile', metadata, filePath[0]);
 });
