@@ -1,0 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca&display=swap');
+
+* {
+    font-family: 'Lexend Deca' !important;
+}
+
+img {
+    height: 128px;
+    width: auto;
+}

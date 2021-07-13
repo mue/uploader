@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel='stylesheet' href='index.css'>
+    </head>
+    <body>
+        <h1>Uploader</h1>
+        <div id='photodiv'>
+            <img id='photo'>
+            <br/>
+        </div>
+        <button onClick='addFile()'>Add File</button>
+        <br/><br/>
+        <label for='category'>Category:</label>
+        <select name='category' id='category'>
+            <option>Other</option>
+        </select>
+        <br/><br/>
+        <div id='newcategorydiv'>
+            <label for='newcategory'>New Category:</label>
+            <input type='text' id='newcategory' name='newcategory'>
+            <br/><br/>
+        </div>
+        <label for='photographer'>Photographer:</label>
+        <select name='photographer' id='photographer'>
+            <option>Other</option>
+        </select>
+        <br/><br/>
+        <div id='newphotographerdiv'>
+            <label for='newphotographer'>New Photographer:</label>
+            <input type='text' id='newphotographer' name='newphotographer'>
+            <br/><br/>
+        </div>
+        <label for='location'>Location:</label>
+        <input type='text' id='location' name='location'>
+        <br/><br/>
+        <label for='model'>Camera Model:</label>
+        <input type='text' id='model' name='model'>
+        <br/><br/>
+        <button onClick='upload()'>Upload</button>
+        <br/><br/>
+        <span id='message'></span>
+        <script src='index.js'></script>
+    </body>
+</html>

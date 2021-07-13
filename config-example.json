@@ -1,0 +1,13 @@
+{
+    "tokens": {
+        "cloudinary": {
+            "key": "",
+            "secret": ""
+        },
+        "supabase": {
+            "url": "",
+            "key": ""
+        },
+        "opencage": ""
+    }
+}
