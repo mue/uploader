@@ -19,15 +19,17 @@ cloudinary.config({
     api_secret: config.tokens.cloudinary.secret
 });
 
+let win;
 app.whenReady().then(() => {
-    const win = new BrowserWindow({
+    win = new BrowserWindow({
         width: 1000,
         height: 800,
         title: 'Mue Uploader',
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false
-        }
+        },
+        frame: false
     });
 
     win.loadFile('public/index.html');
@@ -83,4 +85,25 @@ ipcMain.on('upload', (event, arg) => {
             }
         });
     });
+});
+
+
+ipcMain.on('titlebar', (event, arg) => { 
+    switch (arg) {  
+        case 'minimize':
+            win.minimize();
+            break;
+        case 'maximise':
+            if (!win.isMaximized()) {
+                win.maximize();
+            } else {
+                win.unmaximize();
+            }
+            break;
+        case 'close':
+            win.close();
+            break;
+        default:
+            break;
+    }
 });

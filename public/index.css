@@ -4,7 +4,74 @@
     font-family: 'Lexend Deca' !important;
 }
 
+*:focus {
+    outline: none !important;
+}
+
 img {
     height: 128px;
     width: auto;
+}
+
+input[type=text] {
+    width: 200px;
+    color: black;
+    background: #f0f0f0;
+    border: none;
+    padding: 10px 10px;
+    border-radius: 5px;
+}
+
+select {
+    margin-left: 10px;
+    width: 120px;
+    color: black;
+    background: #f0f0f0;
+    border: none;
+    padding: 10px 10px;
+    border-radius: 5px;
+}
+
+/* titlebar */
+body {
+    padding: 0px;
+    margin: 0px;
+}
+
+#title-bar {
+    -webkit-app-region: drag;
+    height: 32px;
+    padding: 0px;
+    margin: 0px;
+    font-family: sans-serif;
+    background: #f0f0f0;
+}
+
+#title {
+    position: fixed;
+    top: 0px;
+    left: 12px;
+    line-height: 32px;
+    font-size: 14px;
+}
+
+#title-bar-btns {
+    -webkit-app-region: no-drag;
+    position: fixed;
+    top: 1px;
+    right: 0px;
+}
+
+#title-bar-btns button {
+    height: 32px;
+    width: 32px;
+    background-color: transparent;
+    border: none;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#title-bar-btns button:hover {
+    background-color: #d1d1d1;
 }

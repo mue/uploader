@@ -5,11 +5,11 @@
     "description": "Internal uploading utility for Mue",
     "scripts": {
         "start": "electron .",
-        "dist": "electron-builder"
+        "build": "electron-builder"
     },
     "dependencies": {
         "@supabase/supabase-js": "^1.18.1",
-        "cloudinary": "1.26.2",
+        "cloudinary": "^1.26.2",
         "exifr": "^7.1.2",
         "sharp": "^0.28.3"
     },
