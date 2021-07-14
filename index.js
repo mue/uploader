@@ -65,8 +65,9 @@ ipcMain.on('addFile', async (event) => {
     event.sender.send('addedFile', metadata, file);
 });
 
+let filename, category;
 ipcMain.on('upload', (event, arg) => {
-    const filename = crypto.randomBytes(8).toString('hex');
+    filename = crypto.randomBytes(8).toString('hex');
     // compress
     sharp(fs.readFileSync(file), { quality: 85, reductionEffort: 6 })
     .toFile(`./${filename}.webp`, (err) => { 
@@ -80,12 +81,16 @@ ipcMain.on('upload', (event, arg) => {
 
         // upload
         cloudinary.v2.uploader.upload(`./${filename}.webp`, {
-            folder: 'photos/' + arg.category.toLowerCase()
-        }, async (err) => {
+            folder: 'photos/' + arg.category.toLowerCase(),
+            use_filename: true
+        }, async (err, res) => {
             fs.unlinkSync(`./${filename}.webp`);
             if (err) {
                 return event.sender.send('message', 'Failed to upload image');
             }
+
+            cloudinary_id = res.asset_id;
+            category = arg.category;
 
             // add to db
             const { error } = await supabase
@@ -101,12 +106,32 @@ ipcMain.on('upload', (event, arg) => {
             if (error) { 
                 event.sender.send('message', 'Failed to add image to database');
             } else {
-                event.sender.send('message', 'Success');
+                event.sender.send('message', 'Uploaded successfully');
             }
         });
     });
 });
 
+ipcMain.on('undo', (event) => { 
+    cloudinary.v2.uploader.destroy('photos/' + category.toLowerCase() + '/' + filename, {
+        invalidate: true
+    }, async (err) => {
+        if (err) {
+            return event.sender.send('Failed to delete image');
+        }
+
+        const { error } = await supabase
+        .from('newimages')
+        .delete()
+        .match({ filename: filename });
+
+        if (error) { 
+            event.sender.send('message', 'Failed to delete image from database');
+        } else {
+            event.sender.send('message', 'Removed successfully');
+        }
+    });
+});
 
 ipcMain.on('titlebar', (_event, arg) => { 
     switch (arg) {  

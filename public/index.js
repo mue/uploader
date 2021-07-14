@@ -18,6 +18,7 @@ photodiv.style.display = 'none';
 ipcRenderer.on('addedFile', async (_event, arg, arg2) => { 
     photodiv.style.display = 'block';
     document.getElementById('upload').disabled = false;
+    document.getElementById('undo').disabled = true;
     document.getElementById('photo').src = arg2;
 
     // make sure it doesn't say something like Canon Canon EOS 1300D 
@@ -139,10 +140,19 @@ const upload = async () => {
 }
 
 ipcRenderer.on('message', (_event, arg) => {
-    if (arg === 'Success') {
+    if (arg === 'Uploaded successfully') {
+        document.getElementById('undo').disabled = false;
+    } else if (arg === 'Removed successfully') {
         document.getElementById('upload').disabled = false;
     }
     document.getElementById('message').innerText = arg;
 });
 
+const undo = async () => {
+    document.getElementById('undo').disabled = true;
+    document.getElementById('message').innerText = '';
+    ipcRenderer.send('undo');
+}
+
 document.getElementById('upload').disabled = true;
+document.getElementById('undo').disabled = true;
