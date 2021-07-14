@@ -108,7 +108,7 @@ ipcMain.on('upload', (event, arg) => {
 });
 
 
-ipcMain.on('titlebar', (event, arg) => { 
+ipcMain.on('titlebar', (_event, arg) => { 
     switch (arg) {  
         case 'minimize':
             win.minimize();

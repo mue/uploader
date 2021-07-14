@@ -108,12 +108,12 @@ const upload = async () => {
 
     // these 2 if statements are for seeing if the user used the new options
     let photographer = document.getElementById('photographer').value;
-    if (document.getElementById('newphotographerdiv').style.display === 'block') {
+    if (document.getElementById('newphotographerdiv').style.display !== 'none') {
         photographer = document.getElementById('newphotographer').value;
     }
 
     let category = document.getElementById('category').value;
-    if (document.getElementById('newcategorydiv').style.display === 'block') {
+    if (document.getElementById('newcategorydiv').style.display !== 'none') {
         category = document.getElementById('newcategory').value;
     }
 
