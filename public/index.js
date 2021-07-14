@@ -25,23 +25,28 @@ ipcRenderer.on('addedFile', async (_event, arg, arg2) => {
             model.value = phoneInfo.retail_branding + ' ' + phoneInfo.marketing_name;
         }
     } else {
-        if (arg.Make === arg.Model.split(' ')[0]) {
-            model.value = arg.Model;
+        if (!arg.Make && !arg.Model) { 
+            model.value = '';
         } else {
-            model.value = arg.Make + ' ' + arg.Model;
+            if (arg.Make === arg.Model.split(' ')[0]) {
+                model.value = arg.Model;
+            } else {
+                model.value = arg.Make + ' ' + arg.Model;
+            }
         }
     }
 
     // find location from gps data
-    if (arg.latitude) {
-        let location;
+    if (config.tokens.opencage !== '' && arg.latitude && arg.longitude) {
         try {
             const res = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${arg.latitude},${arg.longitude}&key=${config.tokens.opencage}`);
-            location = await res.json();
+            const location = await res.json();
+            document.getElementById('location').value = location.results[0].components.town ? location.results[0].components.town + ', ' + location.results[0].components.country : location.results[0].components.country;
         } catch (e) {
-            return;
+            document.getElementById('location').value = '';
         }
-        document.getElementById('location').value = location.results[0].components.town ? location.results[0].components.town + ', ' + location.results[0].components.country : location.results[0].components.country;
+    } else {
+        document.getElementById('location').value = '';
     }
 });
 

@@ -38,7 +38,7 @@ app.whenReady().then(() => {
 // ipc
 let file;
 ipcMain.on('addFile', async (event) => { 
-    const filePath = dialog.showOpenDialogSync({ properties: ['openFile'] });
+    const filePath = dialog.showOpenDialogSync({ properties: ['openFile'], filters: [{ name: 'Photos', extensions: ['jpg', 'png'] }] });
     let metadata;
     try {
         metadata = await exif.parse(filePath[0]);
