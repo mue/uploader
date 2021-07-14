@@ -2,18 +2,16 @@ const config = require('./config.json');
 
 const { app, BrowserWindow, dialog, ipcMain } = require('electron');
 
-// image
 const sharp = require('sharp');
 const exif = require('exifr');
 const extractd = require('extractd');
 const fs = require('fs');
 const crypto = require('crypto');
 
-// api
-const cloudinary = require('cloudinary');
 const { createClient } = require('@supabase/supabase-js');
 const supabase = createClient(config.tokens.supabase.url, config.tokens.supabase.key);
 
+const cloudinary = require('cloudinary');
 cloudinary.config({
     cloud_name: 'mue',
     api_key: config.tokens.cloudinary.key,
