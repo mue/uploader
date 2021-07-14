@@ -1,5 +1,5 @@
 # uploader
-Internal uploading utility for Mue
+Image uploading utility for Mue
 
 ## About
 The process of uploading images to Mue was long and tedious - you had to generate a file name, add it to the database with the information, compress the image and then upload it and hope it works. This utility was made to make creating the new photo database in 5.2 a much easier process. The utility allows you to simply select a file, choose the category + photographer and click upload.

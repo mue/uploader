@@ -13,7 +13,7 @@ const supabase = createClient(config.tokens.supabase.url, config.tokens.supabase
 
 const cloudinary = require('cloudinary');
 cloudinary.config({
-    cloud_name: 'mue',
+    cloud_name: config.tokens.cloudinary.name,
     api_key: config.tokens.cloudinary.key,
     api_secret: config.tokens.cloudinary.secret
 });

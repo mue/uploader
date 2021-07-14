@@ -1,6 +1,7 @@
 {
     "tokens": {
         "cloudinary": {
+            "name": "",
             "key": "",
             "secret": ""
         },
