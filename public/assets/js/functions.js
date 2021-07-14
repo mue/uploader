@@ -38,4 +38,7 @@ const undo = async () => {
     message.innerText = '';
     undobutton.disabled = true;
     ipcRenderer.send('undo');
+
+    // in case the category/photographer was removed
+    getDropdown();
 }

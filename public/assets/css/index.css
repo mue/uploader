@@ -22,9 +22,10 @@
     outline: none !important;
 }
 
-img {
+#photo {
     height: 128px;
     width: auto;
+    cursor: pointer;
 }
 
 input[type=text] {
@@ -38,7 +39,7 @@ input[type=text] {
 
 select {
     margin-left: 10px;
-    width: 120px;
+    width: 160px;
     color: var(--modal-text);
     background: var(--sidebar);
     border: none;
@@ -59,7 +60,7 @@ body {
     user-select: none;
 }
 
-#title-bar {
+#titlebar {
     -webkit-app-region: drag;
     height: 32px;
     padding: 0px;
@@ -76,14 +77,14 @@ body {
     font-size: 14px;
 }
 
-#title-bar-buttons {
+#titlebar-buttons {
     -webkit-app-region: no-drag;
     position: fixed;
     top: 1px;
     right: 0px;
 }
 
-#title-bar-buttons button {
+#titlebar-buttons button {
     height: 32px;
     width: 32px;
     background-color: transparent;
@@ -93,6 +94,51 @@ body {
     cursor: pointer;
 }
 
-#title-bar-buttons button:hover {
-    background-color: var(--tab-active);
+#titlebar-buttons button:hover {
+    background: var(--tab-active);
+}
+
+#titlebar-buttons #closebutton:hover {
+    background: #ff4757;
+}
+
+/* modal */
+#photomodal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    position: relative;
+    background-color: var(--sidebar);
+    margin: auto;
+    padding: 25px;
+    width: 80%;
+}
+
+#closemodal {
+    color: var(--modal-text);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+#closemodal:hover {
+    color: var(--tab-active);
+}
+
+#modalphoto {
+    height: 400px;
+    width: auto;
+    display: block;
+    margin: auto;
 }

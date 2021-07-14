@@ -1,13 +1,13 @@
 const init = () => {
-    document.getElementById('min-button').addEventListener('click', () => {
+    document.getElementById('minbutton').addEventListener('click', () => {
         ipcRenderer.send('titlebar', 'minimize');
     });
 
-    document.getElementById('max-button').addEventListener('click', () => {
+    document.getElementById('maxbutton').addEventListener('click', () => {
         ipcRenderer.send('titlebar', 'maximise');
     });
 
-    document.getElementById('close-button').addEventListener('click', () => {
+    document.getElementById('closebutton').addEventListener('click', () => {
         ipcRenderer.send('titlebar', 'close');
     });
 };

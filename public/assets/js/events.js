@@ -30,7 +30,7 @@ ipcRenderer.on('addedFile', async (_event, arg, arg2) => {
         try {
             const data = await (await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${arg.latitude},${arg.longitude}&key=${config.tokens.opencage}`)).json();
             // if no town, just do country
-            photolocation.value = dataresults[0].components.town ? data.results[0].components.town + ', ' + data.results[0].components.country : data.results[0].components.country;
+            photolocation.value = data.results[0].components.town ? data.results[0].components.town + ', ' + data.results[0].components.country : data.results[0].components.country;
         } catch (e) {
             photolocation.value = '';
         }
@@ -44,6 +44,10 @@ ipcRenderer.on('message', (_event, arg) => {
 
     if (arg === 'Uploaded successfully') {
         undobutton.disabled = false;
+
+        // in case the user added a new category or photographer
+        // this is so they don't need to reload the program again
+        getDropdown();
     } else if (arg === 'Removed successfully') {
         uploadbutton.disabled = false;
     }

@@ -4,12 +4,12 @@
         <link rel='stylesheet' href='assets/css/index.css'>
     </head>
     <body>
-        <div id='title-bar'>
+        <div id='titlebar'>
             <div id='title'>Mue Uploader</div>
-            <div id='title-bar-buttons'>
-                <button id='min-button'>-</button>
-                <button id='max-button'>+</button>
-                <button id='close-button'>x</button>
+            <div id='titlebar-buttons'>
+                <button id='minbutton'>-</button>
+                <button id='maxbutton'>+</button>
+                <button id='closebutton'>x</button>
             </div>
        </div>
         <h1>Uploader</h1>
@@ -17,24 +17,26 @@
             <img id='photo' draggable='false'>
             <br/>
         </div>
+        <div id='photomodal'>
+            <div class='modal-content'>
+                <span id='closemodal'>&times;</span>
+                <img id='modalphoto' draggable='false'>
+            </div>
+        </div>
         <button onClick='addFile()'>Add File</button>
         <br/><br/>
         <label for='category'>Category:</label>
-        <select name='category' id='category'>
-            <option>Other</option>
-        </select>
+        <select name='category' id='category'></select>
         <br/><br/>
-        <div id='newcategorydiv'>
+        <div id='newcategorydiv' style='display: none;'>
             <label for='newcategory'>New Category:</label>
             <input type='text' id='newcategory' name='newcategory'>
             <br/><br/>
         </div>
         <label for='photographer'>Photographer:</label>
-        <select name='photographer' id='photographer'>
-            <option>Other</option>
-        </select>
+        <select name='photographer' id='photographer'></select>
         <br/><br/>
-        <div id='newphotographerdiv'>
+        <div id='newphotographerdiv' style='display: none;'>
             <label for='newphotographer'>New Photographer:</label>
             <input type='text' id='newphotographer' name='newphotographer'>
             <br/><br/>
@@ -52,6 +54,8 @@
         <script src='assets/js/init.js'></script>
         <script src='assets/js/events.js'></script>
         <script src='assets/js/functions.js'></script>
+        <script src='assets/js/dropdown.js'></script>
+        <script src='assets/js/modal.js'></script>
         <script src='assets/js/titlebar.js'></script>
     </body>
 </html>

@@ -38,7 +38,7 @@ app.whenReady().then(() => {
 let file;
 let raw = false;
 ipcMain.on('addFile', async (event) => { 
-    let filePath = dialog.showOpenDialogSync({ properties: ['openFile'], filters: [{ name: 'Photos', extensions: ['jpg', 'png', 'cr3', 'cr2', 'dng', 'raf', 'fff', 'rwl', 'nef', 'rw2', 'x3f', 'arw'] }] });
+    let filePath = dialog.showOpenDialogSync({ properties: ['openFile'], filters: [{ name: 'Photos', extensions: ['jpg', 'jpeg', 'png', 'cr3', 'cr2', 'dng', 'raf', 'fff', 'rwl', 'nef', 'rw2', 'x3f', 'arw'] }] });
     if (filePath === undefined) {
         return;
     }
