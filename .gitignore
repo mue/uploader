@@ -7,5 +7,6 @@ node_modules/
 *.jpg
 *.webp
 config.json
+devices.csv
 devices.json
 package-lock.json

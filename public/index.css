@@ -76,14 +76,14 @@ body {
     font-size: 14px;
 }
 
-#title-bar-btns {
+#title-bar-buttons {
     -webkit-app-region: no-drag;
     position: fixed;
     top: 1px;
     right: 0px;
 }
 
-#title-bar-btns button {
+#title-bar-buttons button {
     height: 32px;
     width: 32px;
     background-color: transparent;
@@ -93,6 +93,6 @@ body {
     cursor: pointer;
 }
 
-#title-bar-btns button:hover {
+#title-bar-buttons button:hover {
     background-color: var(--tab-active);
 }

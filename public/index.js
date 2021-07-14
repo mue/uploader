@@ -25,10 +25,10 @@ ipcRenderer.on('addedFile', async (_event, arg, arg2) => {
     const phoneInfo = devices.find(device => device.model === arg.Model);
     const model = document.getElementById('model');
     if (phoneInfo) {
-        if (phoneInfo.marketing_name.split(' ')[0] === phoneInfo.retail_branding) {
-            model.value = phoneInfo.marketing_name
+        if (phoneInfo['MarketingName'].split(' ')[0] === phoneInfo['RetailBranding']) {
+            model.value = phoneInfo['MarketingName'];
         } else {
-            model.value = phoneInfo.retail_branding + ' ' + phoneInfo.marketing_name;
+            model.value = phoneInfo['RetailBranding'] + ' ' + phoneInfo['MarketingName'];
         }
     } else {
         if (!arg.Make && !arg.Model) { 
@@ -45,8 +45,7 @@ ipcRenderer.on('addedFile', async (_event, arg, arg2) => {
     // find location from gps data
     if (config.tokens.opencage !== '' && arg.latitude && arg.longitude) {
         try {
-            const res = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${arg.latitude},${arg.longitude}&key=${config.tokens.opencage}`);
-            const location = await res.json();
+            const location = await (await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${arg.latitude},${arg.longitude}&key=${config.tokens.opencage}`)).json();
             document.getElementById('location').value = location.results[0].components.town ? location.results[0].components.town + ', ' + location.results[0].components.country : location.results[0].components.country;
         } catch (e) {
             document.getElementById('location').value = '';
@@ -58,8 +57,7 @@ ipcRenderer.on('addedFile', async (_event, arg, arg2) => {
 
 // list of photographers
 const getPhotographers = async () => {
-    const res = await fetch('https://api.muetab.com/images/photographers');
-    const photographers = await res.json();
+    const photographers = await (await fetch(config.api_url + '/images/photographers')).json();
     const dropdown = document.getElementById('photographer');
     // in the future, we probably want to make the api sort alphabetically instead of doing it here
     photographers.sort().forEach((element) => {
@@ -84,8 +82,7 @@ document.getElementById('photographer').onchange = (e) => {
 
 /// copy and pasted from above
 const getCategories = async () => {
-    const res = await fetch('https://api.muetab.com/images/categories');
-    const categories = await res.json();
+    const categories = await (await fetch(config.api_url + '/images/categories')).json();
     const dropdown = document.getElementById('category');
     categories.forEach((element) => {
         const option = document.createElement('option');
