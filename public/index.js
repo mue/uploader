@@ -1,5 +1,6 @@
 const { ipcRenderer } = require('electron');
 const config = require('../config.json');
+const devices = require('../devices.json');
 
 const addFile = () => {
     document.getElementById('message').innerText = '';
@@ -11,14 +12,36 @@ photodiv.style.display = 'none';
 
 ipcRenderer.on('addedFile', async (_event, arg, arg2) => { 
     photodiv.style.display = 'block';
+    document.getElementById('upload').disabled = false;
     document.getElementById('photo').src = arg2;
-    document.getElementById('model').value = arg.Model || 'Unknown';
+
+    // make sure it doesn't say something like Canon Canon EOS 1300D 
+    const phoneInfo = devices.find(device => device.model === arg.Model);
+    const model = document.getElementById('model');
+    if (phoneInfo) {
+        if (phoneInfo.marketing_name.split(' ')[0] === phoneInfo.retail_branding) {
+            model.value = phoneInfo.marketing_name
+        } else {
+            model.value = phoneInfo.retail_branding + ' ' + phoneInfo.marketing_name;
+        }
+    } else {
+        if (arg.Make === arg.Model.split(' ')[0]) {
+            model.value = arg.Model;
+        } else {
+            model.value = arg.Make + ' ' + arg.Model;
+        }
+    }
 
     // find location from gps data
     if (arg.latitude) {
-        const res = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${arg.latitude},${arg.longitude}&key=${config.tokens.opencage}`);
-        const location = await res.json();
-        document.getElementById('location').value = location.results[0].components.town + ', ' + location.results[0].components.country;;
+        let location;
+        try {
+            const res = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${arg.latitude},${arg.longitude}&key=${config.tokens.opencage}`);
+            location = await res.json();
+        } catch (e) {
+            return;
+        }
+        document.getElementById('location').value = location.results[0].components.town ? location.results[0].components.town + ', ' + location.results[0].components.country : location.results[0].components.country;
     }
 });
 
@@ -106,8 +129,10 @@ const upload = async () => {
 }
 
 ipcRenderer.on('message', (_event, arg) => {
-    if (message === 'Success') {
+    if (arg === 'Success') {
         document.getElementById('upload').disabled = false;
     }
     document.getElementById('message').innerText = arg;
 });
+
+document.getElementById('upload').disabled = true;

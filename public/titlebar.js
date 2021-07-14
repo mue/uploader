@@ -1,9 +1,9 @@
 const init = () => {
-    document.getElementById('min-btn').addEventListener('click', (e) => {
+    document.getElementById('min-btn').addEventListener('click', () => {
         ipcRenderer.send('titlebar', 'minimize');
     });
 
-    document.getElementById('max-btn').addEventListener('click', (e) => {
+    document.getElementById('max-btn').addEventListener('click', () => {
         ipcRenderer.send('titlebar', 'maximise');
     });
 
