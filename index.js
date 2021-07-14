@@ -5,6 +5,7 @@ const { app, BrowserWindow, dialog, ipcMain } = require('electron');
 // image
 const sharp = require('sharp');
 const exif = require('exifr');
+const extractd = require('extractd');
 const fs = require('fs');
 const crypto = require('crypto');
 
@@ -37,16 +38,31 @@ app.whenReady().then(() => {
 
 // ipc
 let file;
+let raw = false;
 ipcMain.on('addFile', async (event) => { 
-    const filePath = dialog.showOpenDialogSync({ properties: ['openFile'], filters: [{ name: 'Photos', extensions: ['jpg', 'png'] }] });
+    let filePath = dialog.showOpenDialogSync({ properties: ['openFile'], filters: [{ name: 'Photos', extensions: ['jpg', 'png', 'cr3', 'cr2', 'dng', 'raf', 'fff', 'rwl', 'nef', 'rw2', 'x3f', 'arw'] }] });
+    if (filePath === undefined) {
+        return;
+    }
+    file = filePath[0];
+
+    const extension = filePath[0].substring(filePath[0].lastIndexOf('.') + 1);
+    const rawTypes = ['cr3', 'cr2', 'dng', 'raf', 'fff', 'rwl', 'nef', 'rw2', 'x3f', 'arw'];
+    if (rawTypes.includes(extension.toLowerCase())) {
+        const jpg = await extractd.generate(filePath[0], {
+            destination: './'
+        });
+        file = jpg.preview;
+        raw = true;
+    }
+
     let metadata;
     try {
-        metadata = await exif.parse(filePath[0]);
+        metadata = await exif.parse(file);
     } catch (e) {
         return event.sender.send('message', 'Failed to get image data');
     }
-    file = filePath[0];
-    event.sender.send('addedFile', metadata, filePath[0]);
+    event.sender.send('addedFile', metadata, file);
 });
 
 ipcMain.on('upload', (event, arg) => {
@@ -56,6 +72,10 @@ ipcMain.on('upload', (event, arg) => {
     .toFile(`./${filename}.webp`, (err) => { 
         if (err) {
             return event.sender.send('message', 'Failed to compress image');
+        }
+
+        if (raw) {
+            fs.unlinkSync(file);
         }
 
         // upload

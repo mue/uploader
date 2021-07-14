@@ -4,6 +4,8 @@ dist/
 node_modules/
 
 # Files
+*.jpg
+*.webp
 config.json
 devices.json
 package-lock.json
