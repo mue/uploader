@@ -2,6 +2,11 @@ const { ipcRenderer } = require('electron');
 const config = require('../config.json');
 const devices = require('../devices.json');
 
+// dark theme
+if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    document.body.classList.add('dark');
+} 
+
 const addFile = () => {
     document.getElementById('message').innerText = '';
     ipcRenderer.send('addFile');
