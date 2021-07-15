@@ -1,3 +1,5 @@
+require('v8-compile-cache');
+
 const config = require('./config.json');
 
 const { app, BrowserWindow, dialog, ipcMain } = require('electron');
