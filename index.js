@@ -4,11 +4,7 @@ const config = require('./config.json');
 
 const { app, BrowserWindow, dialog, ipcMain } = require('electron');
 
-const sharp = require('sharp');
-const exif = require('exifr');
-const extractd = require('extractd');
 const fs = require('fs');
-const crypto = require('crypto');
 
 const { createClient } = require('@supabase/supabase-js');
 const supabase = createClient(config.tokens.supabase.url, config.tokens.supabase.key);
@@ -49,6 +45,9 @@ ipcMain.on('addFile', async (event) => {
     const extension = filePath[0].substring(filePath[0].lastIndexOf('.') + 1);
     const rawTypes = ['cr3', 'cr2', 'dng', 'raf', 'fff', 'rwl', 'nef', 'rw2', 'x3f', 'arw'];
     if (rawTypes.includes(extension.toLowerCase())) {
+        // only require modules when we need to
+        const extractd = require('extractd');
+
         const jpg = await extractd.generate(filePath[0], {
             destination: './'
         });
@@ -58,6 +57,7 @@ ipcMain.on('addFile', async (event) => {
 
     let metadata;
     try {
+        const exif = require('exifr');
         metadata = await exif.parse(file);
     } catch (e) {
         return event.sender.send('message', 'Failed to get image data');
@@ -69,8 +69,12 @@ let filename, category;
 let busy = false;
 ipcMain.on('upload', (event, arg) => {
     busy = true;
+
+    const crypto = require('crypto');
     filename = crypto.randomBytes(8).toString('hex');
+
     // compress
+    const sharp = require('sharp');
     sharp(fs.readFileSync(file), { quality: 85, reductionEffort: 6 })
     .toFile(`./${filename}.webp`, (err) => { 
         if (err) {
@@ -155,6 +159,12 @@ ipcMain.on('titlebar', (_event, arg) => {
             }
             break;
         case 'close':
+            // remove raw files if not uploaded
+            fs.readdirSync('./').forEach((file) => {
+                if (file.endsWith('.jpg')) {
+                    fs.unlinkSync(file);
+                }
+            });
             win.close();
             break;
         default:
