@@ -49,6 +49,7 @@ const getDropdown = async () => {
     const categories = await (await fetch(config.api_url + '/images/categories')).json();
     categories.forEach((element) => {
         const option = document.createElement('option');
+        // make it look nice, Nature instead of nature for example
         option.text = element.charAt(0).toUpperCase() + element.slice(1);
         categorydropdown.add(option);
     });

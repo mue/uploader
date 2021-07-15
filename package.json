@@ -7,7 +7,7 @@
     "homepage": "https://muetab.com",
     "license": "MIT",
     "author": "The Mue Authors (https://github.com/mue/uploader/graphs/contributors)",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "description": "Image uploading utility for Mue",
     "build": {
         "productName": "Mue Uploader",

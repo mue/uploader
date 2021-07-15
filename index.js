@@ -105,7 +105,7 @@ ipcMain.on('upload', (event, arg) => {
                 filename: filename,
                 photographer: arg.photographer,
                 category: arg.category,
-                location: arg.location, 
+                location: arg.location.charAt(0).toUpperCase() + arg.location.slice(1), 
                 camera: arg.camera_model
             }]);
 
