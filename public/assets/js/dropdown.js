@@ -1,7 +1,19 @@
+const getDropdownItems = (element) => { 
+    let array = new Array();
+    for (i = 0; i < element.options.length; i++) {
+       array[i] = element.options[i].value;
+    }
+    return array;  
+}
+
 // list of photographers and categories
+let photographerselected, categoryselected;
 const getDropdown = async () => {
     const photographerdropdown = document.getElementById('photographer');
     const categorydropdown = document.getElementById('category');
+
+    photographerselected = photographerdropdown.value;
+    categoryselected = categorydropdown.value;
 
     // clear existing data
     photographerdropdown.length = 0;
@@ -20,6 +32,9 @@ const getDropdown = async () => {
     const other = document.createElement('option');
     other.text = 'Other';
 
+    const other2 = document.createElement('option');
+    other2.text = 'Other';
+
     const photographers = await (await fetch(config.api_url + '/images/photographers')).json();
     // in the future, we probably want to make the api sort alphabetically instead of doing it here
     photographers.sort().forEach((element) => {
@@ -29,7 +44,7 @@ const getDropdown = async () => {
     });
 
     photographerdropdown.remove(photographerloading);
-    photographerdropdown.add(other);
+    photographerdropdown.add(other2);
 
     const categories = await (await fetch(config.api_url + '/images/categories')).json();
     categories.forEach((element) => {
@@ -40,6 +55,19 @@ const getDropdown = async () => {
 
     categorydropdown.remove(categoryloading);
     categorydropdown.add(other);
+
+    // make sure the user doesn't select something that no longer exists
+    if (getDropdownItems(photographerdropdown).includes(photographerselected)) {
+        photographerdropdown.value = photographerselected;
+    } else {
+        newphotographerdiv.style.display = 'none';
+    }
+
+    if (getDropdownItems(categorydropdown).includes(categoryselected)) {
+        categorydropdown.value = categoryselected;
+    } else {
+        newcategorydiv.style.display = 'none';
+    }
 };
 
 getDropdown();
