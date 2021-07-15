@@ -29,7 +29,7 @@ const upload = async () => {
     ipcRenderer.send('upload', {
         photographer: photographer_name,
         category: category_name,
-        location: location.value,
+        location: photolocation.value,
         camera_model: model.value
     });
 }
