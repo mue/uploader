@@ -4,10 +4,17 @@
     "repository": {
         "url": "github:mue/uploader"
     },
+    "homepage": "https://muetab.com",
     "license": "MIT",
     "author": "The Mue Authors (https://github.com/mue/uploader/graphs/contributors)",
     "version": "1.1.0",
-    "description": "Internal uploading utility for Mue",
+    "description": "Image uploading utility for Mue",
+    "build": {
+        "productName": "Mue Uploader",
+        "appId": "com.muetab.uploader",
+        "copyright": "Copyright © 2021 The Mue Authors",
+        "compression": "maximum"
+    },
     "scripts": {
         "start": "electron .",
         "build": "electron-builder"

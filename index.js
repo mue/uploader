@@ -64,7 +64,9 @@ ipcMain.on('addFile', async (event) => {
 });
 
 let filename, category;
+let busy = false;
 ipcMain.on('upload', (event, arg) => {
+    busy = true;
     filename = crypto.randomBytes(8).toString('hex');
     // compress
     sharp(fs.readFileSync(file), { quality: 85, reductionEffort: 6 })
@@ -106,11 +108,13 @@ ipcMain.on('upload', (event, arg) => {
             } else {
                 event.sender.send('message', 'Uploaded successfully');
             }
+            busy = false;
         });
     });
 });
 
-ipcMain.on('undo', (event) => { 
+ipcMain.on('undo', (event) => {
+    busy = true;
     cloudinary.v2.uploader.destroy('photos/' + category.toLowerCase() + '/' + filename, {
         invalidate: true
     }, async (err) => {
@@ -128,10 +132,15 @@ ipcMain.on('undo', (event) => {
         } else {
             event.sender.send('message', 'Removed successfully');
         }
+        busy = false;
     });
 });
 
 ipcMain.on('titlebar', (_event, arg) => { 
+    if (busy === true) {
+        return dialog.showErrorBox('Error', 'Cannot close while busy! Please wait until all actions have finished before closing.');
+    }
+
     switch (arg) {  
         case 'minimize':
             win.minimize();
