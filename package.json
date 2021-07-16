@@ -14,7 +14,12 @@
         "appId": "com.muetab.uploader",
         "copyright": "Copyright © 2021 The Mue Authors",
         "compression": "maximum",
-        "files": ["!devices.csv", "!getdevicelist.js", "!config-example.json", "!**/.vscode/*"]
+        "files": [
+            "!devices.csv",
+            "!getdevicelist.js",
+            "!config-example.json",
+            "!**/.vscode/*"
+        ]
     },
     "scripts": {
         "start": "electron .",
@@ -26,7 +31,8 @@
         "exifr": "^7.1.2",
         "extractd": "^2.1.0",
         "sharp": "^0.28.3",
-        "v8-compile-cache": "^2.3.0"
+        "v8-compile-cache": "^2.3.0",
+        "what-country": "^1.6.1"
     },
     "devDependencies": {
         "convert-csv-to-json": "^1.3.1",

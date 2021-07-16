@@ -8,8 +8,8 @@
         "supabase": {
             "url": "",
             "key": ""
-        },
-        "opencage": ""
+        }
     },
-    "api_url": ""
+    "api_url": "",
+    "weather_url": "https://weather.muetab.com"
 }

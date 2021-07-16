@@ -28,9 +28,8 @@ ipcRenderer.on('addedFile', async (_event, arg, arg2) => {
     // find location from gps data
     if (config.tokens.opencage !== '' && arg.latitude && arg.longitude) {
         try {
-            const data = await (await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${arg.latitude},${arg.longitude}&key=${config.tokens.opencage}`)).json();
-            // if no town, just do country
-            photolocation.value = data.results[0].components.town ? data.results[0].components.town + ', ' + data.results[0].components.country : data.results[0].components.country;
+            const data = await (await fetch(`${config.weather_url}/location?getAuto=true&lat=${arg.latitude}&lon=${arg.longitude}`)).json();
+            photolocation.value = data[0].name + ', ' + query(data[0].country)[0].name;
         } catch (e) {
             photolocation.value = '';
         }

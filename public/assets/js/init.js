@@ -1,4 +1,5 @@
 const { ipcRenderer } = require('electron');
+const { query } = require('what-country');
 const config = require('../config.json');
 const devices = require('../devices.json');
 
