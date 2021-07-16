@@ -5,9 +5,7 @@ const config = require('./config.json');
 const { app, BrowserWindow, dialog, ipcMain } = require('electron');
 
 const fs = require('fs');
-
-const { createClient } = require('@supabase/supabase-js');
-const supabase = createClient(config.tokens.supabase.url, config.tokens.supabase.key);
+const fetch = require('node-fetch');
 
 const cloudinary = require('cloudinary');
 cloudinary.config({
@@ -65,7 +63,7 @@ ipcMain.on('addFile', async (event) => {
     event.sender.send('addedFile', metadata, file);
 });
 
-let filename, category;
+let filename, category, id;
 let busy = false;
 ipcMain.on('upload', (event, arg) => {
     busy = true;
@@ -99,19 +97,19 @@ ipcMain.on('upload', (event, arg) => {
             category = arg.category;
 
             // add to db
-            const { error } = await supabase
-            .from('newimages')
-            .insert([{ 
-                filename: filename,
-                photographer: arg.photographer,
-                category: arg.category,
-                location: arg.location.charAt(0).toUpperCase() + arg.location.slice(1), 
-                camera: arg.camera_model
-            }]);
+            const location = arg.location.charAt(0).toUpperCase() + arg.location.slice(1)
 
-            if (error) { 
+            let data = await fetch(`${config.api_url}/images/add?filename=${filename}&photographer=${arg.photographer}&category=${arg.category}&location=${location}&camera=${arg.camera_model}`, {
+                headers: {
+                    'Authorization': config.tokens.api
+                }
+            });
+            data = await data.json();
+ 
+            if (data.status === 500) { 
                 event.sender.send('message', 'Failed to add image to database');
             } else {
+                id = data.id;
                 event.sender.send('message', 'Uploaded successfully');
             }
             busy = false;
@@ -128,12 +126,14 @@ ipcMain.on('undo', (event) => {
             return event.sender.send('Failed to delete image');
         }
 
-        const { error } = await supabase
-        .from('newimages')
-        .delete()
-        .match({ filename: filename });
+        let data = await fetch(`${config.api_url}/images/delete?id=${id}`, {
+            headers: {
+                'Authorization': config.tokens.api
+            }
+        });
+        data = await data.json();
 
-        if (error) { 
+        if (data.status === 500) { 
             event.sender.send('message', 'Failed to delete image from database');
         } else {
             event.sender.send('message', 'Removed successfully');

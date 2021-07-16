@@ -5,10 +5,7 @@
             "key": "",
             "secret": ""
         },
-        "supabase": {
-            "url": "",
-            "key": ""
-        }
+        "api": ""
     },
     "api_url": "",
     "weather_url": "https://weather.muetab.com"
